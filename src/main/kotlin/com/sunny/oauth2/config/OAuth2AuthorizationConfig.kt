@@ -8,12 +8,12 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 @Configuration
 @EnableAuthorizationServer
-class Oauth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
+class OAuth2AuthorizationConfig : AuthorizationServerConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(clients: ClientDetailsServiceConfigurer) {
         clients.inMemory()
                 .withClient("testClientId")
-                .secret("testSecret")
+                .secret("{noop}testSecret")
                 .redirectUris("http://localhost:8081/oauth2/callback")
                 .authorizedGrantTypes("authorization_code")
                 .scopes("read", "write")
