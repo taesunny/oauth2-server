@@ -8,12 +8,10 @@ import java.util.stream.Collectors
 
 class CustomUserDetails private constructor(private val userName: String,
                                             private val password: String,
-                                            private val roles: MutableSet<AccountRole>,
-                                            val createdTime: LocalDateTime,
-                                            val visitCount: Int = 5) : UserDetails {
+                                            private val roles: MutableSet<UserRole>) : UserDetails {
     companion object {
-        fun from(account: Account): CustomUserDetails {
-            return with(account) { CustomUserDetails(userName = email, password = password, roles = roles, createdTime = createdTime) }
+        fun from(user: User): CustomUserDetails {
+            return with(user) { CustomUserDetails(userName = email, password = password, roles = roles) }
         }
     }
 

@@ -1,10 +1,8 @@
-package com.sunny.oauth2
+package com.sunny.oauth2.config
 
-import com.sunny.oauth2.domain.account.Account
-import com.sunny.oauth2.domain.account.AccountRepository
+import com.sunny.oauth2.domain.account.User
+import com.sunny.oauth2.domain.account.UserRepository
 import com.sunny.oauth2.domain.account.CustomUserDetails
-import lombok.RequiredArgsConstructor
-import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.BadCredentialsException
@@ -14,21 +12,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
-
-@Slf4j
-@RequiredArgsConstructor
 @Component
 class CustomAuthenticationProvider : AuthenticationProvider {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
-
-    lateinit var accountRepo: AccountRepository
+    @Autowired
+    lateinit var userRepo: UserRepository
 
     override fun authenticate(authentication: Authentication): Authentication {
         val email: String = authentication.name
         val password: String = authentication.credentials.toString()
 
-        val account: Account = accountRepo.findByEmail(email) ?: throw UsernameNotFoundException("user is not exists")
+        val account: User = userRepo.findByEmail(email) ?: throw UsernameNotFoundException("user is not exists")
 
         if (!passwordEncoder.matches(password, account.password)) throw BadCredentialsException("password is not valid")
 

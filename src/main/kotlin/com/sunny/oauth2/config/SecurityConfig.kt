@@ -1,6 +1,5 @@
 package com.sunny.oauth2.config
 
-import com.sunny.oauth2.CustomAuthenticationProvider
 import com.sunny.oauth2.service.CustomUserDetailService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration

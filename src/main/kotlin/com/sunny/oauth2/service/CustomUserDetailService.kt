@@ -1,7 +1,7 @@
 package com.sunny.oauth2.service
 
-import com.sunny.oauth2.domain.account.Account
-import com.sunny.oauth2.domain.account.AccountRepository
+import com.sunny.oauth2.domain.account.User
+import com.sunny.oauth2.domain.account.UserRepository
 import com.sunny.oauth2.domain.account.CustomUserDetails
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class CustomUserDetailService(@Autowired private val accountRepository: AccountRepository,
+class CustomUserDetailService(@Autowired private val accountRepository: UserRepository,
                               @Autowired private val passwordEncoder: PasswordEncoder) : UserDetailsService {
 
     @Transactional
-    fun saveAccount(account: Account): Account {
+    fun saveAccount(account: User): User {
         account.encodePassword(passwordEncoder)
         return accountRepository.save(account)
     }
@@ -25,5 +25,4 @@ class CustomUserDetailService(@Autowired private val accountRepository: AccountR
         return accountRepository.findByEmail(username)?.let { CustomUserDetails.from(it) }
                 ?: throw UsernameNotFoundException("$username Can Not Found")
     }
-
 }
